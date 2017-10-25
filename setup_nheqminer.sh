@@ -41,19 +41,21 @@ else
         mesa-common-dev
 
     # setup beignet
+    rm -rf ./beignet
     git clone git://anongit.freedesktop.org/beignet
     cd beignet
-    git checkout "Release_v1.3"
+    git checkout "Release_v1.3.1"
     mkdir build
     cd build
-    cmake ..
+    cmake ../
     make -j$(nproc)
+    make utest -j$(nproc)
     sudo make install
     cd ../../
 fi
 
-mkdir setup_miner
-cd setup_miner
+mkdir mining
+cd mining
 
 # nheqminer setup
 rm -rf ./nheqminer
@@ -74,15 +76,15 @@ cd zogminer
 cd ../
 
 cat > start.sh <<- EOM
-#!/bin/sh
+#!/bin/bash
 
-trap "trap - TERM && kill -- -$$" INT TERM EXIT
+trap "trap - TERM && kill -9 -- -$$" INT TERM EXIT
 
 ./nheqminer/Linux_cmake/nheqminer_cpu/nheqminer_cpu -l us1-zcash.flypool.org:3333 -u t1KBPmuei8cKRKCXPUtLhXyuNmkVqd9sK1X -t $(nproc) &
 
 ./zogminer/src/zcash-miner -G -stratum="stratum+tcp://us1-zcash.flypool.org:3333" -user=t1KBPmuei8cKRKCXPUtLhXyuNmkVqd9sK1X &
 
-read
+sleep infinity
 EOM
 
 chmod +x start.sh
