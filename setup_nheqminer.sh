@@ -34,7 +34,7 @@ else
         libdrm-dev libxfixes-dev libxext-dev "llvm-3.6-dev" "clang-3.6" \
         "libclang-3.6-dev" libtinfo-dev libedit-dev zlib1g-dev
     # zogminer
-    sudo $apt install \
+    sudo $apt install -y \
         build-essential pkg-config libc6-dev m4 "g++-multilib" \
         autoconf libtool ncurses-dev unzip git python \
         zlib1g-dev wget bsdmainutils automake opencl-headers \
