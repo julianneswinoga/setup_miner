@@ -39,6 +39,17 @@ else
         autoconf libtool ncurses-dev unzip git python \
         zlib1g-dev wget bsdmainutils automake opencl-headers \
         mesa-common-dev
+
+    # setup beignet
+    git clone git://anongit.freedesktop.org/beignet
+    cd beignet
+    git checkout "Release_v1.3"
+    mkdir build
+    cd build
+    cmake ..
+    make -j$(nproc)
+    sudo make install
+    cd ../../
 fi
 
 mkdir setup_miner
@@ -51,7 +62,7 @@ cd nheqminer/cpu_xenoncat/Linux/asm/
 sh ./assemble.sh
 cd ../../../Linux_cmake/nheqminer_cpu
 cmake .
-make -j $(nproc)
+make -j$(nproc)
 cd ../../../
 
 # zogminer setup
