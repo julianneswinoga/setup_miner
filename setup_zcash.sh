@@ -54,8 +54,8 @@ else
     cd ../../
 fi
 
-mkdir mining
-cd mining
+mkdir zec
+cd zec
 
 # nheqminer setup
 rm -rf ./nheqminer
