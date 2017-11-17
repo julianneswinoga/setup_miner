@@ -61,7 +61,7 @@ $(for (( i=1; i<=$(nproc); i++ )); do echo '{ "low_power_mode" : false, "no_pref
 "giveup_limit" : 0,
 "verbose_level" : 4,
 "h_print_time" : 60,
-"daemon_mode" : false,
+"daemon_mode" : true,
 "output_file" : "",
 "httpd_port" : 0,
 "prefer_ipv4" : true,
