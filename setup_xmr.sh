@@ -26,56 +26,64 @@ else
     sudo $apt install -y libmicrohttpd-dev libssl-dev cmake build-essential libhwloc-dev
 fi
 
-mkdir xmr
-cd xmr
+# xmr-stak setup
+rm -rf xmr-stak
+git clone https://github.com/fireice-uk/xmr-stak.git
+cd xmr-stak
 
-# xmr-stak-cpu setup
-rm -rf xmr-stak-cpu
-git clone https://github.com/fireice-uk/xmr-stak-cpu.git
-cd xmr-stak-cpu
-
-cat > donate-level.h <<- EOM
+cat > xmrstak/donate-level.hpp <<- EOM
 #pragma once
 constexpr double fDevDonationLevel = 0.0;
 EOM
-cmake . -DMICROHTTPD_ENABLE=OFF
+cmake . -DMICROHTTPD_ENABLE=OFF -DCMAKE_BUILD_TYPE=Release -DCPU_ENABLE=ON -DOpenCL_ENABLE=OFF -DCUDA_ENABLE=OFF
 make -j$(nproc) install
 cd ../
 
-cat > config.txt <<- EOM
-"cpu_threads_conf" :
+cat > xmr-stak/bin/config.txt <<- EOM
+"pool_list" :
 [
-$(for (( i=1; i<=$(nproc); i++ )); do echo '{ "low_power_mode" : false, "no_prefetch" : true, "affine_to_cpu" : '$(($i - 1))' },'; done)
+	{"pool_address" : "xmr-us-east1.nanopool.org:14444", "wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
 ],
-"use_slow_memory" : "warn",
-"nicehash_nonce" : false,
-"aes_override" : null,
-"use_tls" : false,
-"tls_secure_algo" : true,
-"tls_fingerprint" : "",
-"pool_address" : "xmr-us-east1.nanopool.org:14444",
-"wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76.default/camca96@gmail.com",
-"pool_password" : "x",
+"currency" : "monero",
 "call_timeout" : 10,
-"retry_time" : 10,
+"retry_time" : 30,
 "giveup_limit" : 0,
-"verbose_level" : 4,
+"verbose_level" : 1,
+"print_motd" : false,
 "h_print_time" : 60,
+"aes_override" : null,
+"use_slow_memory" : "warn",
+"tls_secure_algo" : true,
 "daemon_mode" : true,
-"output_file" : "",
+"flush_stdout" : false,
+"output_file" : "log.txt",
 "httpd_port" : 0,
+"http_login" : "",
+"http_pass" : "",
 "prefer_ipv4" : true,
 EOM
 
-cat > start.sh <<- EOM
-#!/bin/bash
-
-trap "trap - TERM && kill -9 -- -$$" INT TERM EXIT
-
-./xmr-stak-cpu/bin/xmr-stak-cpu
-
-sleep infinity
+cat > xmr-stak/bin/cpu.txt <<- EOM
+"cpu_threads_conf" :
+[
+$(for (( i=1; i<=$((`nproc` / 2)); i++ )); do echo '{ "low_power_mode" : false, "no_prefetch" : true, "affine_to_cpu" : '$(($i - 1))' },'; done)
+],
 EOM
 
-chmod +x start.sh
+cat > xmr-stak/bin/start.sh <<- EOM
+#!/bin/bash
 
+case "\$1" in
+    -d|--daemon)
+        \$0 < /dev/null &> /dev/null & disown
+        exit 0
+        ;;
+    *)
+        ;;
+esac
+
+sudo ./xmr-stak
+
+EOM
+
+chmod +x xmr-stak/bin/start.sh
