@@ -42,7 +42,7 @@ cd ../
 cat > xmr-stak/bin/config.txt <<- EOM
 "pool_list" :
 [
-	{"pool_address" : "xmr-us-east1.nanopool.org:14444", "wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
+	{"pool_address" : "xmr-us-east1.nanopool.org:14444", "wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76.default/camca96@gmail.com", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
 ],
 "currency" : "monero",
 "call_timeout" : 10,
