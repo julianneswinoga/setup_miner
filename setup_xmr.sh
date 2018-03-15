@@ -18,9 +18,9 @@ done
 
 echo Package manager: $apt
 
-if [ $apt = "yum" ] || [ $apt = "dnf" ]; then
+if [ "$apt" = "yum" ] || [ "$apt" = "dnf" ]; then
     sudo $apt install -y gcc gcc-c++ hwloc-devel openssl-devel cmake
-elif [ $apt = "apt-get" ]; then
+elif [ "$apt" = "apt-get" ]; then
     sudo $apt install -y libssl-dev cmake build-essential libhwloc-dev
 else
     sudo xbpf-install -Sy base-devel libhwloc-devel libressl-devel 
