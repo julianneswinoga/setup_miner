@@ -23,7 +23,7 @@ if [ "$apt" = "yum" ] || [ "$apt" = "dnf" ]; then
 elif [ "$apt" = "apt-get" ]; then
     sudo $apt install -y libssl-dev cmake build-essential libhwloc-dev
 else
-    sudo xbps-install -Sy base-devel libhwloc-devel libressl-devel 
+    sudo xbps-install -Sy base-devel libhwloc-devel libressl-devel cmake
 fi
 
 # xmr-stak setup
