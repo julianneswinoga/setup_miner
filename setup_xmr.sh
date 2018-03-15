@@ -19,11 +19,11 @@ done
 echo Package manager: $apt
 
 if [ $apt = "yum" ] || [ $apt = "dnf" ]; then
-    # xmr-stak-cpu
-    sudo $apt install -y gcc gcc-c++ hwloc-devel libmicrohttpd-devel openssl-devel cmake
+    sudo $apt install -y gcc gcc-c++ hwloc-devel openssl-devel cmake
+elif [ $apt = "apt-get" ]; then
+    sudo $apt install -y libssl-dev cmake build-essential libhwloc-dev
 else
-    # xmr-stak-cpu
-    sudo $apt install -y libmicrohttpd-dev libssl-dev cmake build-essential libhwloc-dev
+    sudo xbpf-install -Sy base-devel libhwloc-devel libressl-devel 
 fi
 
 # xmr-stak setup
