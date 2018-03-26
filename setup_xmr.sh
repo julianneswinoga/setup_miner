@@ -39,12 +39,24 @@ cmake . -DMICROHTTPD_ENABLE=OFF -DCMAKE_BUILD_TYPE=Release -DCPU_ENABLE=ON -DOpe
 make -j$(nproc) install
 cd ../
 
-cat > xmr-stak/bin/config.txt <<- EOM
+cat > xmr-stak/bin/pools.txt <<- EOM
 "pool_list" :
 [
-	{"pool_address" : "xmr-us-east1.nanopool.org:14444", "wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76.`hostname`/camca96@gmail.com", "pool_password" : "x", "use_nicehash" : false, "use_tls" : false, "tls_fingerprint" : "", "pool_weight" : 1 },
+	{
+        "pool_address" : "xmr-usa.dwarfpool.com:8005",
+        "wallet_address" : "4ApJyxddzmmQ383MUX6QiMXFVBWjn3q9u3uPbh3d3NVfPSKgvSYFM1JVfK8rJqUwA4Td3rjnYd3ZA6dRUYLVzzoQN1nDZ76.`hostname`",
+        "rig_id": "`hostname`",
+        "pool_password" : "camca96@gmail.com",
+        "use_nicehash" : false,
+        "use_tls" : false,
+        "tls_fingerprint" : "",
+        "pool_weight" : 1
+    },
 ],
-"currency" : "monero",
+"currency" : "monero7",
+EOM
+
+cat > xmr-stak/bin/config.txt <<- EOM
 "call_timeout" : 10,
 "retry_time" : 30,
 "giveup_limit" : 0,
